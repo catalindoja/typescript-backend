@@ -1,4 +1,6 @@
-[
+import { ToolEntry } from "../types";
+
+const toolEntries: ToolEntry[] = [
     {
         "id": 1,
         "name": "Tool 1",
@@ -24,3 +26,5 @@
         "command": "ls -la"
     }
 ]
+
+export default toolEntries

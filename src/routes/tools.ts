@@ -1,13 +1,39 @@
 import express from 'express';
+import * as toolServices from '../services/toolServices';
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    res.send('Hello from tools!');
+    res.send(toolServices.getToolsWithoutSensitiveInfo());
 });
 
-router.post('/', (_req, res) => {
-    res.send('Hello from tools!');
+router.get('/:id', (req, res) => {
+    const tool = toolServices.findById(Number(req.params.id));
+
+    if (tool) {
+        res.send(tool);
+    } else {
+        res.status(404).send('Tool not found');
+    }
+
+    /* alternative way, but take care with req & res types and error handling
+    return (tool != null)
+        ? res.send(tool)
+        : res.status(404).send('Tool not found');
+    */
 });
+
+router.post('/', (req, res) => {
+    try {
+        const newToolEntry = toNewToolEntry(req.body);
+
+        const addedToolEntry = toolServices.addTool(newToolEntry);
+
+        res.json(addedToolEntry);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
 
 export default router;
