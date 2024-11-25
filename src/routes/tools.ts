@@ -1,5 +1,6 @@
 import express from 'express';
 import * as toolServices from '../services/toolServices';
+import toNewToolEntry from '../utils';
 
 const router = express.Router();
 
@@ -30,7 +31,7 @@ router.post('/', (req, res) => {
         const addedToolEntry = toolServices.addTool(newToolEntry);
 
         res.json(addedToolEntry);
-    } catch (e) {
+    } catch (e: any) {
         res.status(400).send(e.message);
     }
 });
